@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BlueHouse Cafe' – แต้มสะสม</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Noto+Sans+Thai:wght@400;500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@line/liff@next/dist/sdk.js"></script>
+<style>
+:root{--bg:#E6F1F5;--surface:#fff;--ink:#0B3556;--muted:#5E7A8C;--navy:#0B3556;--teal:#19A7A0;--tea:#F2A93B;--line:#D3E4EB;
+box-sizing:border-box;padding-top:max(env(safe-area-inset-top,0px),12px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07151F;--surface:#102838;--ink:#EAF4F8;--muted:#8FAABA;--line:#22435A}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans Thai',system-ui,sans-serif;line-height:1.6}
+h1,h2{font-family:'Mitr','Noto Sans Thai',sans-serif;font-weight:500;margin:0}
+main{max-width:390px;margin:0 auto;padding:14px 0 40px}
+.phone{background:var(--surface);border-radius:34px;border:1px solid var(--line);overflow:hidden;box-shadow:0 24px 50px rgba(11,53,86,.18);position:relative}
+.top{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.av{width:40px;height:40px;border-radius:50%;background:var(--navy);display:grid;place-items:center;overflow:hidden;flex:none}
+.av svg{width:30px}
+.top b{display:block;font-size:15px;line-height:1.2}
+.top small{color:var(--muted);font-size:12px}
+.card{position:relative;margin:4px 12px 0;border-radius:26px;padding:22px 18px 18px;color:#fff;background:radial-gradient(110% 90% at 100% 0%,#1B8CA0 0%,#0F5278 50%,#0B3556 100%);overflow:hidden}
+.card>*{position:relative}
+.card .row{display:flex;justify-content:space-between;align-items:flex-start}
+.card .lbl{font-size:13px;opacity:.85}
+.card .n{font-family:'Mitr';font-size:60px;line-height:1.05}
+.card .n small{font-size:22px;opacity:.7}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(4px);border-radius:14px;padding:8px 12px;font-size:13px;line-height:1.35;text-align:center;max-width:132px}
+.chip b{display:block;font-family:'Mitr';font-weight:500;font-size:20px;color:#FFD58A}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}
+.st{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1.5px dashed rgba(255,255,255,.38);font-family:'Mitr';font-size:13px;color:rgba(255,255,255,.55)}
+.st svg{width:62%;height:62%;display:none}
+.st.on{background:#fff;border:0;color:transparent;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.st.on svg{display:block;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.st.gift{border-color:var(--tea);color:var(--tea)}
+.st.gift svg{display:block;width:60%;height:60%}
+.st.gift.on{background:linear-gradient(145deg,#FFD58A,#F2A93B);box-shadow:0 0 18px rgba(242,169,59,.8)}
+@keyframes pop{from{transform:scale(.3) rotate(-15deg)}to{transform:scale(1)}}
+.bar{height:7px;border-radius:4px;background:rgba(255,255,255,.18);margin-top:18px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#FFD58A,#F2A93B);border-radius:4px;transition:width .5s}
+.reward{position:relative;margin:12px 12px 0;padding:14px 16px 14px 70px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.reward::before,.reward::after{content:"";position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--surface);border:1px solid var(--line);transform:translateY(-50%)}
+.reward::before{left:-8px}.reward::after{right:-8px}
+.reward .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:14px;background:linear-gradient(145deg,#FFD58A,#F2A93B);display:grid;place-items:center;color:#3A2400;flex:none}
+.reward b{display:block;font-size:15px;line-height:1.35}
+.reward small{color:var(--muted);font-size:12px}
+.btn{display:block;width:calc(100% - 24px);margin:12px 12px 4px;border:0;border-radius:16px;background:#06C755;color:#fff;font:600 16px 'Noto Sans Thai',sans-serif;padding:15px;cursor:pointer;box-shadow:0 8px 16px rgba(6,199,85,.28);transition:transform .15s}
+.btn:active{transform:scale(.98)}
+.btn.redeem{background:linear-gradient(145deg,#FFC25C,#F2A93B);color:#3A2400;box-shadow:0 8px 16px rgba(242,169,59,.4)}
+.btn:focus-visible,.ghost:focus-visible{outline:3px solid var(--tea);outline-offset:2px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.ghost{display:block;margin:0 auto;background:none;border:0;color:var(--muted);font:13px 'Noto Sans Thai';padding:6px 10px;cursor:pointer;text-decoration:underline}
+.hist{padding:6px 20px 12px}
+.hist h3{font-family:'Mitr';font-weight:500;font-size:16px;margin:10px 0 2px}
+.hist ul{margin:0;padding:0}
+.hist li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;list-style:none}
+.hist li .d{width:34px;height:34px;border-radius:50%;background:#E3F4F3;display:grid;place-items:center;flex:none}
+.hist li .d svg{width:20px}
+.hist li .tx{flex:1}
+.hist li small{color:var(--muted);display:block;font-size:12px;line-height:1.3}
+.hist li b{color:var(--teal);font-weight:600}
+.hist li b.u{color:#C98412}
+.load{position:fixed;inset:0;background:rgba(11,53,86,.95);display:grid;place-items:center;color:#fff;text-align:center;z-index:999;font-family:'Mitr'}
+.load.hide{display:none}
+.load p{margin:0;font-size:14px}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cf{position:fixed;width:8px;height:12px;border-radius:2px;animation:fall 1.8s ease-in forwards;pointer-events:none;z-index:5}
+@keyframes fall{to{transform:translateY(600px) rotate(540deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.cf{display:none}.st.on svg{animation:none}}
+</style>
+</head>
+<body>
+<div class="load" id="load"><div><div class="spinner"></div><p>กำลังโหลด...</p></div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="tea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7B955"/><stop offset=".55" stop-color="#D9822B"/><stop offset=".56" stop-color="#FFF3DF"/><stop offset="1" stop-color="#F4DFBE"/></linearGradient>
+</defs>
+<symbol id="cupI" viewBox="0 0 48 64">
+<path d="M30 2l-4 12" stroke="#19A7A0" stroke-width="3.500" stroke-linecap="round"/>
+<path d="M7 12h34l-5 46q-.4 4-4 4H16q-3.600 0-4-4z" fill="url(#tea)" stroke="#0B3556" stroke-width="2.200" stroke-linejoin="round"/>
+<rect x="14" y="17" width="9" height="9" rx="2" fill="#fff" opacity=".55" transform="rotate(-10 18 21)"/>
+<rect x="26" y="20" width="8" height="8" rx="2" fill="#fff" opacity=".45" transform="rotate(12 30 24)"/>
+</symbol>
+<symbol id="giftI" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 9v12M2.500 9h19M12 9C9 3 5 5.500 7.500 9M12 9c3-6 7-3.500 4.500 0"/></symbol>
+<symbol id="catI" viewBox="0 0 60 50"><path d="M6 20L8 2l14 9a28 28 0 0 1 16 0l14-9 2 18c2 4 2 8 0 12-4 12-16 16-24 16S10 44 6 32c-2-4-2-8 0-12z" fill="#0B3556"/><circle cx="21" cy="26" r="3" fill="#fff"/><circle cx="39" cy="26" r="3" fill="#fff"/><path d="M27 33h6l-3 4z" fill="#F2A93B"/><path d="M4 30l12 3M4 38l12-3M56 30l-12 3M56 38l-12-3" stroke="#0B3556" stroke-width="1.500" stroke-linecap="round"/></symbol>
+</svg>
+
+<main>
+<div class="phone" id="phone">
+  <div class="top"><div class="av"><svg viewBox="0 0 60 50"><use href="#catI"/></svg></div><div><b id="nameD">BlueHouse Cafe'</b><small id="userD">@267casnh</small></div></div>
+  <div class="card">
+    <div class="row">
+      <div><div class="lbl">แต้มสะสมของคุณ</div><div class="n"><span id="n">0</span><small>/10</small></div></div>
+      <div class="chip" id="chip"><b>โหลด...</b></div>
+    </div>
+    <div class="stamps" id="stamps"></div>
+    <div class="bar"><i id="bar"></i></div>
+  </div>
+  <div class="reward">
+    <div class="ic"><svg width="26" height="26"><use href="#giftI"/></svg></div>
+    <b>แลกเครื่องดื่มได้ทุกเมนู</b><small>ใช้ได้ถึง 24/09/2027</small>
+  </div>
+  <button class="btn" id="go" disabled>กำลังโหลดข้อมูล...</button>
+  <button class="ghost" id="close" style="display:none">ปิด</button>
+  <div class="hist"><h3>ประวัติล่าสุด</h3><ul id="hist"></ul></div>
+</div>
+</main>
+
+<script>
+var liffId='YOUR_LIFF_ID_HERE';
+var userId=null,userName='',userAv='https://obs.line-scdn.net/...';
+var pointsDB={};
+
+function $(i){return document.getElementById(i)}
+function ic(id){return '<svg viewBox="'+(id=='cupI'?'0 0 48 64':'0 0 24 24')+'" width="'+(id=='cupI'?28:26)+'"><use href="#'+id+'"/></svg>'}
+
+async function initLIFF(){
+  try{
+    await liff.init({liffId:liffId});
+    $('load').classList.add('hide');
+    
+    if(!liff.isLoggedIn()){liff.login();return;}
+    
+    var p=liff.getProfile();userId=p.userId;userName=p.displayName;
+    $('nameD').textContent=userName||'BlueHouse Cafe\'';
+    if(p.pictureUrl)$('userD').innerHTML='<img src="'+p.pictureUrl+'" style="width:40px;height:40px;border-radius:50%;margin:-12px 0 0 -48px">';
+    
+    if(liff.isInClient()){$('close').style.display='block';
+      $('close').onclick=()=>liff.closeWindow();}
+    
+    loadPoints();
+    $('go').disabled=false;
+    $('go').textContent='สแกนรับแต้ม (ทดลอง)';
+  }catch(e){console.error(e);alert('เกิดข้อผิดพลาด: '+e.message);}
+}
+
+function loadPoints(){
+  var n=pointsDB[userId]||0;
+  var h=JSON.parse(localStorage.getItem('hist_'+userId)||'[]');
+  draw(n,h);
+}
+
+function draw(n,h){
+  var s="",full=n>=10;
+  for(var i=1;i<=10;i++){var g=i==10,on=i<=n;
+    s+='<div class="st'+(on?' on':'')+(g?' gift':'')+'">'+(g?ic('giftI'):ic('cupI'))+'</div>';}
+  $('stamps').innerHTML=s;
+  $('n').textContent=n;$('bar').style.width=n*10+'%';
+  $('chip').innerHTML=full?'<b>ครบแล้ว!</b>แลกฟรีได้เลย':'<b>อีก '+(10-n)+'</b>แก้ว รับฟรี';
+  var b=$('go');b.textContent=full?'ใช้สิทธิ์แลกเครื่องดื่มฟรี':'สแกนรับแต้ม (ทดลอง)';
+  b.className='btn'+(full?' redeem':'');
+  
+  $('hist').innerHTML=(h||[]).slice(0,4).map(function(x){
+    var u=x[2]=='ใช้แล้ว';
+    return '<li><span class="d">'+ic(u?'giftI':'cupI')+'</span><span class="tx">'+x[0]+'<small>'+x[1]+'</small></span><b'+(u?' class="u"':'')+'>'+x[2]+'</b></li>';
+  }).join("")||'<li style="color:#8FAABA;text-align:center">ยังไม่มีประวัติ</li>';
+}
+
+function confetti(){
+  for(var i=0;i<28;i++){var c=['#F2A93B','#19A7A0','#fff','#2A78A8'][i%4],e=document.createElement('span');
+    e.className='cf';e.style.left=Math.random()*100+'%';e.style.background=c;
+    e.style.animationDelay=Math.random()*.5+'s';document.body.appendChild(e);
+    setTimeout(function(){e.remove()},2600);}
+}
+
+$('go').onclick=function(){
+  var n=pointsDB[userId]||0,h=JSON.parse(localStorage.getItem('hist_'+userId)||'[]');
+  if(n>=10){
+    h.unshift(['แลกเครื่องดื่มฟรี','วันนี้','ใช้แล้ว']);
+    pointsDB[userId]=0;
+  }else{
+    n++;pointsDB[userId]=n;
+    h.unshift(['เครื่องดื่ม','วันนี้','+1']);
+    if(n==10)confetti();
+  }
+  localStorage.setItem('points_'+userId,n);
+  localStorage.setItem('hist_'+userId,JSON.stringify(h));
+  draw(n,h);
+};
+
+if(liffId=='YOUR_LIFF_ID_HERE'){
+  $('load').classList.remove('hide');
+  $('load').innerHTML='<div><p>❌ ยังไม่ได้ตั้ง LIFF ID</p><p style="font-size:12px;margin-top:8px;color:#ccc">แก้ไข bluehouse_liff.html<br>หา liffId=\'YOUR_LIFF_ID_HERE\'<br>ใส่ ID ของคุณแทน</p></div>';
+}else{
+  initLIFF();
+}
+</script>
+</body>
+</html>
