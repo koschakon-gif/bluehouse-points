@@ -123,7 +123,8 @@ async function initLIFF(){
     
     if(!liff.isLoggedIn()){liff.login();return;}
     
-    var p=liff.getProfile();userId=p.userId;userName=p.displayName;
+    var p=await liff.getProfile();userId=p.userId;userName=p.displayName;
+
     $('nameD').textContent=userName||'BlueHouse Cafe\'';
     if(p.pictureUrl)$('userD').innerHTML='<img src="'+p.pictureUrl+'" style="width:40px;height:40px;border-radius:50%;margin:-12px 0 0 -48px">';
     
