@@ -180,7 +180,8 @@ $('go').onclick=function(){
   draw(n,h);
 };
 
-if(liffId=='2007765458-Jf5fUla0'){
+if(liffId.indexOf('YOUR')===0){
+
   $('load').classList.remove('hide');
   $('load').innerHTML='<div><p>❌ ยังไม่ได้ตั้ง LIFF ID</p><p style="font-size:12px;margin-top:8px;color:#ccc">แก้ไข bluehouse_liff.html<br>หา liffId=\'YOUR_LIFF_ID_HERE\'<br>ใส่ ID ของคุณแทน</p></div>';
 }else{
